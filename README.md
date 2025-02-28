@@ -2,7 +2,7 @@
 
 Penetration Assistant Framework
 
-Commandes pour commit :
+## Commandes pour commit :
 
 ```git
 git add .
@@ -11,7 +11,7 @@ git commit
 git push
 ```
 
-Commandes pour mettre à jour son code :
+## Commandes pour mettre à jour son code :
 
 ```git
 git pull
