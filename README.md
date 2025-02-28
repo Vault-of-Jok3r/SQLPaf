@@ -1,9 +1,9 @@
 # SQLPaf 
 *SQL Penetration Assistant Framework*
 
-Vault-of-Jok3r : Léo Dardillac
-
-Zap2204        : Adrien Moncet
+By :
+- Vault-of-Jok3r : Léo Dardillac
+- Zap2204        : Adrien Moncet
 
 ## Commandes pour commit :
 
