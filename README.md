@@ -1,6 +1,6 @@
-# PAF
+# SQLPaf
 
-Penetration Assistant Framework
+SQL Penetration Assistant Framework
 
 ## Commandes pour commit :
 
