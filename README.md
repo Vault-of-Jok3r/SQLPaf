@@ -1,3 +1,7 @@
+![Python](https://img.shields.io/badge/Python-3.10+-blue)
+![Docker](https://img.shields.io/badge/Docker-Supported-green)
+![License](https://img.shields.io/badge/License-MIT-brightgreen)
+
 # SQLPaf 
 *SQL Penetration Assistant Framework*
 
@@ -84,3 +88,8 @@ chmod +x SQLPaf.sh
  
 - Vault-of-Jok3r - Léo Dardillac
 - Zap2204 - Adrien Moncet
+
+## 🏆 Acknowledgements
+
+- [SQLMap](http://sqlmap.org/)
+- [Gobuster](https://github.com/OJ/gobuster)
