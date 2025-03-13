@@ -6,7 +6,7 @@ def run_gobuster(target_url, wordlist_path, mode="dir", additional_args=None):
     Lance GoBuster sur l'URL cible en utilisant le dictionnaire spécifié.
     Retourne une liste d'URLs complètes découvertes.
     """
-    gobuster_exe = r"/usr/bin/gobuster"
+    gobuster_exe = r"/bin/gobuster"
     
     command = [
         gobuster_exe, mode, 
