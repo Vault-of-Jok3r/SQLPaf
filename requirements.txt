@@ -1,0 +1,5 @@
+gym
+selenium
+Pillow
+torch
+numpy
