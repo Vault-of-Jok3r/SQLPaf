@@ -5,9 +5,9 @@
 ![Docker](https://img.shields.io/badge/Docker-Supported-blue)
 ![Gobuster](https://img.shields.io/badge/Gobuster-Integrated-blue)
 ![SQLMap](https://img.shields.io/badge/SQLMap-Automated-blue)
+
 [![LinkedIn Jok3r](https://img.shields.io/badge/LinkedIn-Jok3r-purple)](https://www.linkedin.com/in/leo-dardillac/)
 [![LinkedIn Zap2204](https://img.shields.io/badge/LinkedIn-Zap2204-purple)](https://www.linkedin.com/in/adrien-moncet/)
-
 
 ![SQLPaf_Logo](https://github.com/user-attachments/assets/360c1632-a9f1-4740-b45b-f4b67027336a)
 
