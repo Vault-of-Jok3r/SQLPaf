@@ -1,5 +1,4 @@
-# SQLPaf 
-*SQL Penetration Assistant Framework*
+# SQLPaf
 
 ![Status](https://img.shields.io/badge/Status-Stable-blue)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
@@ -93,5 +92,5 @@ chmod +x SQLPaf.sh
 
 ## 🏆 Acknowledgements
 
-- [SQLMap](http://sqlmap.org/)
+- [SQLMap](https://github.com/sqlmapproject/sqlmap))
 - [Gobuster](https://github.com/OJ/gobuster)
