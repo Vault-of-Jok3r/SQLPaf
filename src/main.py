@@ -52,4 +52,4 @@ with open("bin/temp/wordlist.txt", "w", encoding="utf-8") as wordlist_file:
 print("Proceeding...\n")
 
 # Lancement du script src/gobuster/gobuster.py
-subprocess.run([sys.executable, "src/ai/main.py"])
+subprocess.run([sys.executable, "src/ai/scan_url.py"])
