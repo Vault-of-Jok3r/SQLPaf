@@ -3,3 +3,4 @@ selenium
 Pillow
 torch
 numpy
+tensorboard
