@@ -3,7 +3,7 @@ import gym
 from gym import spaces
 import numpy as np
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
 from PIL import Image
 import io
@@ -24,12 +24,12 @@ class WebEnv(gym.Env):
         self.start_url = start_url
         self.current_url = start_url
         
-        # Configuration de Selenium avec Chrome en mode headless
-        chrome_options = Options()
+        # Configuration de Selenium avec firefox en mode headless
+        firefox_options = Options()
         if headless:
-            chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--disable-gpu")
-        self.driver = webdriver.Chrome(options=chrome_options)
+            firefox_options.add_argument("--headless")
+        firefox_options.add_argument("--disable-gpu")
+        self.driver = webdriver.firefox(options=firefox_options)
         self.driver.get(self.start_url)
         time.sleep(1)  # Attente du chargement
         
