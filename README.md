@@ -37,7 +37,7 @@ Depending on your setup and how you prefer to run SQLPaf, there are two main ins
 
 Both methods are simple to deploy. Below you'll find the detailed steps for each approach.
 
-### 🐳 On Docker *(Recommendend)*
+### 🐳 On Docker *(Recommendend)*:
 
 This method isolates SQLPaf and dependencies in a container, making deployment consistent across environments.
 
@@ -61,7 +61,7 @@ Run the code:
 ./SQLPaf.sh
 ```
 
-### 💻 On your machine
+### 💻 On your machine:
 
 If you are not familiar with Docker, you can still install it on your main machine.
 
