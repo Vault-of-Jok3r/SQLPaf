@@ -3,7 +3,7 @@ import gym
 from gym import spaces
 import numpy as np
 from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.firefox.options import Options  # Using Firefox options
 from selenium.webdriver.common.by import By
 from PIL import Image
 import io
@@ -11,78 +11,77 @@ import time
 
 class WebEnv(gym.Env):
     """
-    Environnement Gym pour l'exploration web via Selenium.
-    L'état est défini par un screenshot redimensionné (84x84 pixels, 3 canaux).
-    Les actions (espace discret) sont :
-      0 : Suivre le premier lien de la page.
-      1 : Faire défiler la page vers le bas.
-      2 : Vérifier la présence d'un formulaire et déclencher SQLMap si détecté.
-      3 : Revenir à la page précédente.
+    Gym Environment for web exploration using Selenium with Firefox.
+    The state is defined by a screenshot resized to 84x84 pixels (RGB).
+    The discrete actions are:
+      0: Follow the first link on the page.
+      1: Scroll down the page.
+      2: Check for a form and trigger SQLMap if detected.
+      3: Go back to the previous page.
     """
     def __init__(self, start_url="http://quotes.toscrape.com", headless=True):
         super(WebEnv, self).__init__()
         self.start_url = start_url
         self.current_url = start_url
         
-        # Configuration de Selenium avec firefox en mode headless
+        # Set up Firefox in headless mode
         firefox_options = Options()
         if headless:
             firefox_options.add_argument("--headless")
-        firefox_options.add_argument("--disable-gpu")
-        self.driver = webdriver.firefox(options=firefox_options)
+        self.driver = webdriver.Firefox(options=firefox_options)
         self.driver.get(self.start_url)
-        time.sleep(1)  # Attente du chargement
+        time.sleep(1)  # Wait for the page to load
         
-        # Définition des espaces d'actions et d'observations
+        # Define action and observation spaces
         self.action_space = spaces.Discrete(4)
         self.observation_space = spaces.Box(low=0, high=255, shape=(84, 84, 3), dtype=np.uint8)
     
     def _get_observation(self):
-        # Capture d'écran et redimensionnement à 84x84
+        # Capture a screenshot and resize it to 84x84
         png = self.driver.get_screenshot_as_png()
         image = Image.open(io.BytesIO(png)).convert("RGB")
         image = image.resize((84,84))
         return np.array(image)
     
     def _detect_form(self):
-        # Détection heuristique d'un formulaire par la présence de la balise "<form"
+        # Heuristically detect a form by checking for the "<form" tag in the page source
         html = self.driver.page_source.lower()
         return "<form" in html
     
     def step(self, action):
-        done = False  # Pour ce prototype, l'épisode se termine sur un nombre fixe d'étapes
+        done = False  # In this prototype, the episode ends after a fixed number of steps
         reward = 0
         info = {}
         
         if action == 0:
-            # Suivre le premier lien trouvé sur la page
+            # Follow the first link on the page
             try:
-                links = self.driver.find_elements(By.TAG_NAME, "a")  # Récupération de tous les liens
+                links = self.driver.find_elements(By.TAG_NAME, "a")
                 if links:
                     links[0].click()
                     time.sleep(1)
                     self.current_url = self.driver.current_url
                 else:
                     info['error'] = "No link element found."
-                    reward = -1  # Pénaliser l'absence de lien
+                    reward = -1
             except Exception as e:
                 info['error'] = str(e)
         elif action == 1:
-            # Faire défiler la page vers le bas
+            # Scroll down the page
             self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             time.sleep(1)
         elif action == 2:
-            # Vérifier la présence d'un formulaire et déclencher SQLMap si trouvé
+            # Check for a form and trigger SQLMap if detected
             if self._detect_form():
-                reward = 10  # Récompense positive
+                reward = 10
                 info['form_detected'] = True
-                from ai.sqlmap_integration import run_sqlmap
+                from sqlmap_integration import run_sqlmap
                 sqlmap_result = run_sqlmap(self.current_url)
                 info['sqlmap'] = sqlmap_result
             else:
-                reward = -1  # Pénalité en cas d'absence de formulaire
+                reward = -1
         elif action == 3:
-            # Revenir à la page précédente
+            # Go back to the previous page
             self.driver.back()
             time.sleep(1)
             self.current_url = self.driver.current_url
@@ -91,12 +90,12 @@ class WebEnv(gym.Env):
         return obs, reward, done, info
     
     def reset(self):
-        # Réinitialiser l'environnement en rechargeant l'URL de départ
+        # Reset the environment by reloading the start URL
         self.driver.get(self.start_url)
         time.sleep(1)
         self.current_url = self.start_url
         return self._get_observation()
     
     def close(self):
-        # Fermer le driver Selenium
+        # Close the Selenium driver
         self.driver.quit()
