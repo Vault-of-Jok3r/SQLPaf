@@ -36,5 +36,5 @@ def scan_url_for_form(url, headless=True):
     driver.quit()
 
 if __name__ == "__main__":
-    target_url = "http://quotes.toscrape.com/login"
+    target_url = "http://quotes.toscrape.com/"
     scan_url_for_form(target_url)
