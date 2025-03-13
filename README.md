@@ -1,9 +1,11 @@
-![Python](https://img.shields.io/badge/Python-3.10+-blue)
-![Docker](https://img.shields.io/badge/Docker-Supported-green)
-![License](https://img.shields.io/badge/License-MIT-brightgreen)
-
 # SQLPaf 
 *SQL Penetration Assistant Framework*
+
+![Status](https://img.shields.io/badge/Status-Stable-blue)
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
+![Docker](https://img.shields.io/badge/Docker-Supported-blue)
+![Gobuster](https://img.shields.io/badge/Gobuster-Integrated-blue)
+![SQLMap](https://img.shields.io/badge/SQLMap-Automated-red)
 
 ![SQLPaf_Logo](https://github.com/user-attachments/assets/360c1632-a9f1-4740-b45b-f4b67027336a)
 
