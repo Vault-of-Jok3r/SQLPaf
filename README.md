@@ -1,10 +1,10 @@
-# SQLPaf
+# 🚀 SQLPaf
 
 ![Status](https://img.shields.io/badge/Status-Stable-blue)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
 ![Docker](https://img.shields.io/badge/Docker-Supported-blue)
 ![Gobuster](https://img.shields.io/badge/Gobuster-Integrated-blue)
-![SQLMap](https://img.shields.io/badge/SQLMap-Automated-red)
+![SQLMap](https://img.shields.io/badge/SQLMap-Automated-blue)
 
 ![SQLPaf_Logo](https://github.com/user-attachments/assets/360c1632-a9f1-4740-b45b-f4b67027336a)
 
@@ -90,7 +90,7 @@ chmod +x SQLPaf.sh
 - Vault-of-Jok3r - Léo Dardillac
 - Zap2204 - Adrien Moncet
 
-## 🏆 Acknowledgements
+## 🌐 Official repositories
 
-- [SQLMap](https://github.com/sqlmapproject/sqlmap))
+- [SQLMap](https://github.com/sqlmapproject/sqlmap)
 - [Gobuster](https://github.com/OJ/gobuster)
