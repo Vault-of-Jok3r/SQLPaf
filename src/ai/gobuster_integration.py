@@ -3,8 +3,8 @@ import subprocess
 
 def run_gobuster(target_url, wordlist_path, mode="dir", additional_args=None):
     """
-    Lance GoBuster sur l'URL cible en utilisant le dictionnaire spécifié.
-    Retourne une liste d'URLs complètes découvertes.
+    Runs GoBuster on the target URL using the specified wordlist.
+    Returns a list of discovered full URLs.
     """
     gobuster_exe = r"/bin/gobuster"
     
@@ -20,7 +20,7 @@ def run_gobuster(target_url, wordlist_path, mode="dir", additional_args=None):
         result = subprocess.run(command, capture_output=True, text=True, timeout=60)
         output = result.stdout
     except Exception as e:
-        print(f"Erreur lors de l'exécution de GoBuster : {e}")
+        print(f"Error while running GoBuster: {e}")
         return []
     
     urls = []
