@@ -46,7 +46,7 @@ This method isolates SQLPaf and dependencies in a container, making deployment c
 Clone the repository:
 
 ```bash
-git clone https://github.com/your-repo/SQLPaf.git
+git clone https://github.com/Vault-of-Jok3r/SQLPaf.git
 cd SQLPaf
 ```
 
