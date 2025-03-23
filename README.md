@@ -57,6 +57,12 @@ docker build -t sqlpaf .
 docker run -it --hostname pafologue --name SQLPaf sqlpaf
 ```
 
+Install python dependencies:
+
+```bash
+pip3 install -r requirements.txt
+```
+
 Run the code:
 
 ```bash
