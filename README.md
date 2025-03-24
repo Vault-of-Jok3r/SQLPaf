@@ -38,6 +38,8 @@ Depending on your setup and how you prefer to run SQLPaf, there are two main ins
 
 Both methods are simple to deploy. Below you'll find the detailed steps for each approach.
 
+### 🛠️ Methods
+
 <details>
  <summary>🐳 On Docker (Recommendend):</summary>
  ㅤ
