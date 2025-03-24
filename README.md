@@ -22,6 +22,7 @@ The developers take no responsibility for illegal use or any damages resulting f
 ## 📦 Requirements
 
 - Python 3.10+
+- Docker
 - Gobuster
 - gym
 - selenium
