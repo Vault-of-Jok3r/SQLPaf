@@ -4,7 +4,6 @@
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
 ![Docker](https://img.shields.io/badge/Docker-Supported-blue)
 ![Gobuster](https://img.shields.io/badge/Gobuster-Integrated-blue)
-![SQLMap](https://img.shields.io/badge/SQLMap-Automated-blue)
 
 [![LinkedIn Jok3r](https://img.shields.io/badge/LinkedIn-Jok3r-purple)](https://www.linkedin.com/in/leo-dardillac/)
 [![LinkedIn Zap2204](https://img.shields.io/badge/LinkedIn-Zap2204-purple)](https://www.linkedin.com/in/adrien-moncet/)
