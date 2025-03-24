@@ -38,8 +38,10 @@ Depending on your setup and how you prefer to run SQLPaf, there are two main ins
 
 Both methods are simple to deploy. Below you'll find the detailed steps for each approach.
 
-### 🐳 On Docker *(Recommendend)*:
-
+<details>
+ <summary>🐳 On Docker (Recommendend):</summary>
+ ㅤ
+ 
 This method isolates SQLPaf and dependencies in a container, making deployment consistent across environments.
 
 Clone the repository:
@@ -67,10 +69,12 @@ Run the code:
 ```bash
 ./SQLPaf.sh
 ```
-
-### 💻 On your machine:
-
-If you are not familiar with Docker, you can still install it on your main machine.
+</details>
+<details>
+ <summary>💻 On your machine:</summary>
+ ㅤ
+ 
+ If you are not familiar with Docker, you can still install it on your main machine.
 
 Clone the repository:
 
@@ -91,6 +95,11 @@ Give the code the authorisation of execution and run it:
 chmod +x SQLPaf.sh
 ./SQLPaf.sh
 ```
+</details>
+
+## 🎯 How to use :
+
+add
 
 ## 👨‍💻 Authors :
  
