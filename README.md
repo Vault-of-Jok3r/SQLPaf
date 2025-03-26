@@ -103,7 +103,39 @@ chmod +x SQLPaf.sh
 
 ## 🎯 How to use :
 
-add
+At first, you need to run SQLPaf.sh.
+
+![use1](bin/readme/use1.png)
+
+Here, you have two available options: a single scan or a multi-scan.
+
+<details>
+ <summary>Scan on a simple URL</summary>
+ 
+ ![use2](bin/readme/use2.png)
+
+The tool identifies the form and then attempts a predefined SQL injection payload. At the end of the process, it provides a summary report.
+
+</details>
+<details>
+ <summary>Scan on multiple URL</summary>
+ 
+![use3](bin/readme/use3.png)
+
+For multiple URLs, the tool offers wordlists for Gobuster. Custom wordlists can also be added to the [bin/wordlists](./bin/wordlists), and they will automatically be available within the tool.
+
+![use4](bin/readme/use4.png)
+
+Once a wordlist is selected, the tool initiates a Gobuster scan to identify forms. In the provided example, a form was discovered towards the end of the scan.
+
+![use5](bin/readme/use5.png)
+
+Upon detecting forms, the tool concurrently executes SQL injection payloads on each one to evaluate their vulnerability.
+
+![use6](bin/readme/use6.png)
+
+At the very end, the tool provides a brief summary for each individual form, along with an overall report covering all scans.
+</details>
 
 ## 👨‍💻 Authors :
  
