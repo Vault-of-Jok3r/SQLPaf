@@ -366,13 +366,13 @@ def main():
     else:
         print("[!] No mode specified. Usage: scan_url.py [basic|ml]")
         sys.exit(1)
-    if mode == "basic":
+    if mode in ["basic", "basique"]:
         single_url_mode()
     elif mode == "ml":
         url_list_mode()
     else:
         print(f"[!] Unknown mode: {mode}. Please use 'basic' or 'ml'.")
-        sys.exit(1)
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
