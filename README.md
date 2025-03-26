@@ -111,6 +111,7 @@ Here, you have two available options: a single scan or a multi-scan.
 
 <details>
  <summary>Scan on a simple URL</summary>
+ ㅤ
  
  ![use2](bin/readme/use2.png)
 
@@ -119,6 +120,7 @@ The tool identifies the form and then attempts a predefined SQL injection payloa
 </details>
 <details>
  <summary>Scan on multiple URL</summary>
+ ㅤ
  
 ![use3](bin/readme/use3.png)
 
