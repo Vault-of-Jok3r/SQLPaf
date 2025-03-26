@@ -122,7 +122,7 @@ The tool identifies the form and then attempts a predefined SQL injection payloa
  
 ![use3](bin/readme/use3.png)
 
-For multiple URLs, the tool offers wordlists for Gobuster. Custom wordlists can also be added to the [bin/wordlists](./bin/wordlists), and they will automatically be available within the tool.
+For multiple URLs, the tool offers wordlists for Gobuster. By default, it uses wordlists from the SecLists repository. You can also add custom wordlists to the [bin/wordlists](bin/wordlists) directory — they will automatically be recognized and made available by the tool.
 
 ![use4](bin/readme/use4.png)
 
@@ -145,3 +145,4 @@ At the very end, the tool provides a brief summary for each individual form, alo
 ## 🌐 Official repositories
 
 - [Gobuster](https://github.com/OJ/gobuster)
+- [SecLists](https://github.com/danielmiessler/SecLists)
