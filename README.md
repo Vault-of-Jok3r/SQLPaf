@@ -29,6 +29,7 @@ The developers take no responsibility for illegal use or any damages resulting f
 - Pillow
 - torch
 - numpy
+- beautifulsoup4
 
 ## ⚙️ Installation
 
