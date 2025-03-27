@@ -32,7 +32,7 @@ if mode_choice == "1":
     # For this mode, the wordlist is not used: we save an empty file
     with open("bin/temp/wordlist.txt", "w", encoding="utf-8") as f:
         f.write("")
-    mode = "basique"
+    mode = "basic"
 elif mode_choice == "2":
     # URL list mode: test on a domain using a wordlist
     domain = input("Enter the domain: ").strip()
