@@ -344,15 +344,15 @@ def main():
     if len(sys.argv) > 1:
         mode = sys.argv[1].lower()
     else:
-        print("[!] Aucun mode spécifié. Usage: scan_url.py [basic|ml]")
+        print("[!] No mode specified. Usage: scan_url.py [basic|ml]")
         sys.exit(1)
-    if mode in ["basic", "basique"]:
+    if mode == "basic":
         single_url_mode()
     elif mode == "ml":
         url_list_mode()
     else:
-        print(f"[!] Mode inconnu : {mode}. Merci d'utiliser 'basic' ou 'ml'.")
-    sys.exit(1)
+        print(f"[!] Unknown mode: {mode}. Please use 'basic' or 'ml'.")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
