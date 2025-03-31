@@ -1,5 +1,3 @@
-![SQLPaf_Logo](bin/logo/Screenshot_20250331_181249_Chrome.jpg)
-
 ![Status](https://img.shields.io/badge/Status-Stable-blue)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
 ![Docker](https://img.shields.io/badge/Docker-Supported-blue)
@@ -7,6 +5,8 @@
 
 [![LinkedIn Jok3r](https://img.shields.io/badge/LinkedIn-Jok3r-purple)](https://www.linkedin.com/in/leo-dardillac/)
 [![LinkedIn Zap2204](https://img.shields.io/badge/LinkedIn-Zap2204-purple)](https://www.linkedin.com/in/adrien-moncet/)
+
+![SQLPaf_Logo](bin/logo/Screenshot_20250331_181249_Chrome.jpg)
 
 SQLPaf is a powerful penetration testing framework designed to automate the detection and exploitation of SQL injection vulnerabilities.
 It combines Gobuster's brute-force web directory scanning and an AI-powered form recognition engine proven payload injection capabilities. The result is a streamlined and efficient process for identifying, analyzing, and exploiting vulnerable web applications at scale.
