@@ -139,8 +139,8 @@ At the very end, the tool provides a brief summary for each individual form, alo
 
 ## 👨‍💻 Authors :
  
-- Vault-of-Jok3r - Léo Dardillac
-- Zap2204 - Adrien Moncet
+- Vault-of-Jok3r
+- Zap2204
 
 ## 🌐 Official repositories
 
